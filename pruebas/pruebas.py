@@ -9,7 +9,7 @@ from scheduling import FCFS,RR,SJF,Prioridad
 call('clear')
 
 
-parser = argparse.ArgumentParser(description="SIMULADOR DE EJECUCION DE PROCESOS") #se crea el parser
+parser = argparse.ArgumentParser(description="SIMULADOR DE EJECUCION DE PROCESOS!") #se crea el parser
 parser.add_argument('-a',metavar='algoritmo',dest='algoritmo',type=str,required=True,choices=['RR','FCFS','SJF','Prioridad'],help="Seleccion tipo de Algoritmo puede ser RR o FCFS")
 parser.add_argument('-q',metavar='quantum',dest='q',type=int,help="Indica quantum",default=2)
 parser.add_argument('-t',metavar='threads',dest='threads',type=int,help="Indica threads",default=1)
