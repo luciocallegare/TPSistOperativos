@@ -35,13 +35,14 @@ class Proceso(): #clase proceso
         """
         Devuelve tiempo en cpu
         """
-        return self.__tiempo_cpu
+        return int(self.__tiempo_cpu)
 
+    @property #property para que attrgetter funcione y tome el atributo de una getter y pueda ordenar
     def get_prioridad(self):
         """
         Devuelve prioridad
         """
-        return self.__prioridad
+        return int(self.__prioridad)
     
     def set_tiempo_restante(self,q):
         """
@@ -55,8 +56,24 @@ class Proceso(): #clase proceso
         """
         return self.__tiempo_restante
     
-    def __str__(self):
+    def __str__(self): #metodo sobrecargado para funcion print de objetos
         """
         imprime id objeto
         """
         return str(self.__procID)
+    
+    def __gt__(self,proceso): #greater
+        return int(self.__prioridad)<int(proceso.__prioridad)
+
+    def __cmp__(self, other): #comparador para funcion sort por prioridad
+        if self.__prioridad == other.__prioridad:
+            return 1 if self.__arribo > other.__arribo else -1
+        elif self.__prioridad < other__prioridad:
+            return -1
+        else:
+            return 1
+
+    def __lt__(self,other): #smaller, metodos magicos python para ordenamiento
+        return self.__prioridad<other.__prioridad
+    
+    
