@@ -10,6 +10,8 @@ class Proceso(): #clase proceso
         self.__tiempo_cpu = proceso[3]
         self.__tiempo_restante = int(proceso[3])
         self.__tiempo_espera = 0
+        self.__tiempo_salida = 0
+        self.__tiempo_arribo =0 
         #variables privadas __
 
 
@@ -44,11 +46,35 @@ class Proceso(): #clase proceso
         """
         return int(self.__prioridad)
     
+    def get_tiempo_salida(self):
+        """
+        Devuelve tiempo salida
+        """
+        return int(self.__tiempo_salida)
+    
+    def get_tiempo_arribo(self):
+        """
+        Devuelve tiempo arribo
+        """
+        return int(self.__tiempo_arribo)
+    
     def set_tiempo_restante(self,q):
         """
-        Devuelve tiempo restante de ejecucion
+        Setea tiempo restante de ejecucion
         """
         self.__tiempo_restante = int(self.__tiempo_restante - q)
+
+    def set_tiempo_salida(self,tiempo):
+        """
+        Setea tiempo de salida
+        """
+        self.__tiempo_salida = int(tiempo)
+    
+    def set_tiempo_arribo(self,tiempo):
+        """
+        Setea tiempo de arribo
+        """
+        self.__tiempo_arribo = int(tiempo)
 
     def get_tiempo_restante(self):
         """

@@ -12,6 +12,13 @@ def ejecutar(lista_procesos,threads):
         lista_hilos.append(threading.Thread(name='Hilo %s' %i,target=ciclo,args=(lista_procesos,lista_espera,lista_finalizados, )))
     for i in range(0,threads): #ejecuto cada hilo de la lista de hilos
             lista_hilos[i].start()
+    for i in range(0,threads): #espero que finalicen todos los hilos
+            lista_hilos[i].join()
+    print("RESULTADO DE LA EJECUION")
+    print("ID TA WT")
+    for proceso in lista_finalizados:
+        aux.InformeProceso(proceso)
+        
 
 def ciclo(lista_procesos,lista_espera,lista_finalizados):
     tiempo_inicio = time.time() #guardo el tiempo en que arranca el algoritmo
@@ -33,6 +40,12 @@ def ciclo(lista_procesos,lista_espera,lista_finalizados):
             lista_espera.sort() #metodo __cmp__ sobrecargado
             #lista2=sorted(lista_procesos,key=attrgetter('get_prioridad'))#ordenar por prioridad
 
+        if int(tiempo_de_procesador) ==  int(time.time() - tiempo_ingreso_cpu) :#si el tiempo en procesador termino
+            print("Finalizo el proceso PID",ejecucion.get_procID())
+            ejecucion.set_tiempo_salida(time.time())
+            lista_finalizados.append(ejecucion)
+            cpu_ocupado = False #libero cpu
+        
         print("Lista de Espera: ")#voy imprimiendo la lista de procesos en espera
         for proc in lista_espera:
             print(proc)        
@@ -44,27 +57,11 @@ def ciclo(lista_procesos,lista_espera,lista_finalizados):
             cpu_ocupado = True
             tiempo_de_procesador = ejecucion.get_tiempo_cpu() #traigo el tiempo del proceso que entra en el cpu
         elif len(lista_espera)==0:
-            print("lista espera vacia")
-        
-        if int(tiempo_de_procesador) ==  int(time.time() - tiempo_ingreso_cpu) :#si el tiempo en procesador termino
-            print("tiempo en procesador finalizado")
-            if cpu_ocupado == True:
-                if ejecucion.get_tiempo_restante() <= 0 :#si finalizo el proceso, lo envio a lista de finalizados
-                    print("Finalizo el proceso PID",ejecucion.get_procID())
-                    lista_finalizados.append(ejecucion)
-                cpu_ocupado = False #libero cpu
-            
-            elif len(lista_espera) > 0: #si hay elementos en la lista de espera, lo cargo en cpu
-                lista_espera.append(ejecucion)
-                tiempo_en_cpu = time.time()
-                cpu_ocupado = True #cpu ocupado
-            else:
-                tiempo_en_cpu = time.time()        
+            print("lista espera vacia")       
         
         Mostrar_estado_CPU(cpu_ocupado,ejecucion)
         time.sleep(1)#duermo un segundo para simular
 
-def Chequear_tiempo_en_cpu(tiempo_de_procesador,tiempo_ingreso_cpu,cpu_ocupado,ejecucion,lista_finalizados,lista_espera)
 
 def Mostrar_estado_CPU(cpu_ocupado,ejecucion):
     if cpu_ocupado == True:
