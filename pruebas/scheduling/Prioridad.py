@@ -2,7 +2,7 @@ import Proceso
 import time
 import threading
 from operator import itemgetter, attrgetter
-from scheduling import aux1
+from scheduling import utils
 
 def ejecutar(lista_procesos,threads):
     lista_espera =[] #declaro lista de espera
@@ -17,7 +17,7 @@ def ejecutar(lista_procesos,threads):
     print("RESULTADO DE LA EJECUION")
     print("ID TA WT")
     for proceso in lista_finalizados:
-        aux1.InformeProceso(proceso)
+        utils.InformeProceso(proceso)
         
 
 def ciclo(lista_procesos,lista_espera,lista_finalizados):
@@ -36,7 +36,7 @@ def ciclo(lista_procesos,lista_espera,lista_finalizados):
         print("TIEMPO " , cronometro)#voy imprimiendo el tiempo en ejecucion
         
         if len(lista_procesos)>0:#si hay algun elemento reviso si arriba un proceso en el tiempo acutal
-            lista_espera.extend(aux1.BuscaArribo(lista_procesos,cronometro))
+            lista_espera.extend(utils.BuscaArribo(lista_procesos,cronometro))
             lista_espera.sort() #metodo __cmp__ sobrecargado
             #lista2=sorted(lista_procesos,key=attrgetter('get_prioridad'))#ordenar por prioridad
 
