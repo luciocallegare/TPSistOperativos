@@ -4,45 +4,64 @@ from operator import itemgetter, attrgetter
 from scheduling import utils
 
 def ejecutar(lista_procesos):
-     tiempo_inicio = time.time() #guardo el tiempo en que arranca el algoritmo
-     lista_espera =[] #declaro lista de espera
-     lista_finalizados=[]#declaro lista finalizados
-     cpu_ocupado = False #declaro variable booleana para el estado de cpu
-     ejecucion=[]
+    lista_espera =[] #declaro lista de espera
+    lista_hilos=[] #declaro lista de hilos
+    lista_finalizados = [] #declaro lista finalizados
+   
+   for proceso in lista_procesos:
+      ciclo(lista_procesos,lista_espera,lista_finalizados)
 
-     print("FCFS")
+    print("RESULTADO DE LA EJECUION")
+    print("ID TA WT")
+    for proceso in lista_finalizados:
+        utils.InformeProceso(proceso)
+
+def ciclo(lista_procesos,lista_espera,lista_finalizados):
+    tiempo_inicio = time.time() #guardo el tiempo en que arranca el algoritmo
+    cpu_ocupado = False #declaro variable booleana para el estado de cpu
+    tiempo_en_cpu = 0 #tiempo de un proceso en cpu
+    ejecucion=[]#elemento en ejecucion
+    tiempo_de_procesador = 0 #timepo que lleva ejecutado un proceso en el cpu
+    tiempo_ingreso_cpu = 0 #tiempo en que ingresa en el cpu
+
 
      while len(lista_procesos)>0 or len(lista_espera)>0 or cpu_ocupado == True:
          cronometro = int(time.time() - tiempo_inicio)
          print("*************\n")
          print("TIEMPO " , cronometro)#voy imprimiendo el tiempo en ejecucion
 
-         print("Lista de Espera: ")#voy imprimiendo la lista de procesos en espera
-         for proc in lista_espera:
-            print(proc)
-        
          if len(lista_procesos)>0:#si hay algun elemento reviso si arriba un proceso en el tiempo acutal
-            lista_espera.extend(untils.BuscaArribo(lista_procesos,tiempo_inicio))
+            lista_espera.extend(utils.BuscaArribo(lista_procesos,cronometro))
 
-         if len(lista_espera)>0 and not cpu_ocupado:#cargo un proceso al si hay un elemento en espera y el cpu vacio 
-            ejecucion = lista_espera.pop(0)#saco el primer elemento de la lista de espera
-            print("Entro al CPU el proceso " , ejecucion.get_procID())
-            tiempo_en_cpu = time.time()#guardo el tiempo en que entro
-            cpu_ocupado = True
-         elif len(lista_espera)==0:
-            print("lista espera vacia")
+        if int(tiempo_de_procesador) ==  int(time.time() - tiempo_ingreso_cpu) :#si el tiempo en procesador termino
+            print("Finalizo el proceso PID",ejecucion.get_procID())
+            ejecucion.set_tiempo_salida(time.time())
+            lista_finalizados.append(ejecucion)
+            cpu_ocupado = False #libero cpu
         
-         if ejecucion.get_tiempo_restante() <= 0 :#si finalizo el proceso, lo envio a lista de finalizados
-                    print("Finalizo el proceso PID",ejecucion.get_procID())
-                    lista_finalizados.append(ejecucion)
-                    cpu_ocupado=False
-         elif len(lista_espera) > 0: #si hay elementos en la lista de espera, lo cargo en cpu
-                lista_espera.append(ejecucion)
-                tiempo_en_cpu = time.time()
-                cpu_ocupado = True #cpu ocupado
-         else:
-                cpu_ocupado = False
-                tiempo_en_cpu = time.time()
-         print("En CPU PID ",end='')#proceso que esta en el cpu en este momento
-         print(ejecucion)
-         time.sleep(1)#duermo un segundo para simular
+        print("Lista de Espera: ")#voy imprimiendo la lista de procesos en espera
+        for proc in lista_espera:
+            print(proc)        
+        
+        if len(lista_espera)>0 and not cpu_ocupado:#cargo un proceso al cpu si hay un elemento en espera y el cpu vacio 
+            ejecucion = lista_espera.pop(0)#saco el primer elemento de la lista de espera
+            print("Entro al CPU el proceso " , ejecucion.get_procID()) #indico quien entro
+            tiempo_ingreso_cpu = time.time() #guardo el tiempo que ingresa al cpu
+            cpu_ocupado = True
+            tiempo_de_procesador = ejecucion.get_tiempo_cpu() #traigo el tiempo del proceso que entra en el cpu
+        elif len(lista_espera)==0:
+            print("lista espera vacia")       
+        
+        Mostrar_estado_CPU(cpu_ocupado,ejecucion)
+        time.sleep(1)#duermo un segundo para simular
+
+
+def Mostrar_estado_CPU(cpu_ocupado,ejecucion):
+    if cpu_ocupado == True:
+        print("En CPU PID ",end='')#proceso que esta en el cpu en este momento
+        print(ejecucion)
+        nombre_hilo=threading.currentThread().getName()
+        print(' ejecutando en %s' %nombre_hilo)
+    else:
+        print("CPU vacio")
+         
