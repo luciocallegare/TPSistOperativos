@@ -8,7 +8,7 @@ from scheduling import utils
 
 proc_lock = threading.Lock()
 cola_listos = queue.PriorityQueue() 
-
+lista_finalizados = []
 
 def ciclo(worker,lista_finalizados) :
     #ciclo en cpu
@@ -21,19 +21,20 @@ def ciclo(worker,lista_finalizados) :
     while tiempo_ejecucion > 0 :
         tiempo_ejecucion -= 1
         time.sleep(1)            
-    print("termino el proceso ",worker.get_procID())
-    tiempo_salida = time.time()
-    worker.set_tiempo_salida(tiempo_salida)    
-    #turnaround
-    print("Turnaround = ",int(tiempo_salida-tiempo_arribo))
-    #tiempo espera
-    print("Tiempo de Espera = ", int(worker.get_tiempo_espera()))
-    #tiempo espera total (para los casos sin desalojo = tiempo espera)
-    print("Tiempo de Espera Total = ", int(worker.get_tiempo_espera()))
-    #tiempo de respuesta
-    print("Tiempo de Respuesta = ",int(tiempo_ingreso)-int(worker.get_tiempo_entrada()))
-    #tiempo en procesador
-    print("Tiempo uso procesador = ",worker.get_tiempo_cpu())
+    with proc_lock :
+        print("termino el proceso ",worker.get_procID())
+        tiempo_salida = time.time()
+        worker.set_tiempo_salida(tiempo_salida)    
+        #turnaround
+        print("Turnaround = ",int(tiempo_salida-tiempo_arribo))
+        #tiempo espera
+        print("Tiempo de Espera = ", int(worker.get_tiempo_espera()))
+        #tiempo espera total (para los casos sin desalojo = tiempo espera)
+        print("Tiempo de Espera Total = ", int(worker.get_tiempo_espera()))
+        #tiempo de respuesta
+        print("Tiempo de Respuesta = ",int(tiempo_ingreso)-int(worker.get_tiempo_entrada()))
+        #tiempo en procesador
+        print("Tiempo uso procesador = ",worker.get_tiempo_cpu())
 
     lista_finalizados.append(worker)
 
@@ -46,20 +47,17 @@ def threader(lista_finalizados):
 
 def Simulacion(lista_procesos):
     tiempo_inicio = time.time() #guardo el tiempo en que arranca el algoritmo
-        
-    #ejecuto el algoritmo mientras haya un elemento en lista de espera
-    #o por arribar o mientras el cpu este ocupado (ultimo elemento en ejecucion)
-    while len(lista_procesos)>0 or cola_listos.qsize() > 0 :
+    total_procesos = len(lista_procesos)    
+    while len(lista_finalizados) < total_procesos :
         cronometro = int(time.time() - tiempo_inicio)
         print("*************\n")
-        print("TIEMPO " , cronometro)#voy imprimiendo el tiempo en ejecucion
-                   
-        lista_arribos = utils.BuscaArribo(lista_procesos,cronometro)
-        for arribo in lista_arribos:
-            #prioridad = arribo.get_prioridad()
-            print("arribo: ",arribo)
-            arribo.set_tiempo_arribo(time.time())
-            cola_listos.put((arribo))                  
+        print("TIEMPO " , cronometro)#voy imprimiendo el tiempo en ejecucion           
+        if len(lista_procesos) > 0 :    
+            lista_arribos = utils.BuscaArribo(lista_procesos,cronometro)
+            for arribo in lista_arribos:
+                print("arribo: ",arribo)
+                arribo.set_tiempo_arribo(time.time())
+                cola_listos.put((arribo))                  
         
         time.sleep(1)#duermo un segundo para simular
 
@@ -68,22 +66,23 @@ def thread_ejecutar(threads,lista_procesos,lista_finalizados):
     for i in range(threads):
         t=threading.Thread(name='Hilo %s' %i,target=threader,args=(lista_finalizados, ))
         t.daemon = True
-        t.start()
-    
-    #ciclo que alimenta la lista a medida que llegan
+        t.start()    
+    #ciclo que alimenta la lista a medida que arriban los procesos
     Simulacion(lista_procesos)
     #espera que el thread termine
     cola_listos.join()
 
 
 def ejecutar(lista_procesos,threads):
-    inicio_simulacion = time.time()
-    lista_espera = []
-    lista_finalizados = []
+    #tiempo de inicio de la simulacion
+    inicio_simulacion = time.time()    
     thread_ejecutar(threads,lista_procesos,lista_finalizados)
-    tot = len(lista_finalizados)
+    #inicializar variables
     sum_turnaround = espera = sum_rta = 0
+    tot = len(lista_finalizados)
+    #tiempo en que finaliza la ejecucion
     fin_simulacion = time.time()
+    #calculo de los valores totales de la ejecucion
     for p in lista_finalizados :
         sum_turnaround += p.get_tiempo_salida() - p.get_tiempo_arribo()
         espera += p.get_tiempo_espera()
@@ -91,4 +90,5 @@ def ejecutar(lista_procesos,threads):
 
     finalizados_cada_mil = tot * 1000 / int(fin_simulacion-inicio_simulacion)
     
+    #se devuelve un objeto salida con la informacion de la simulacion
     return Salidas.Salidas_Threads(sum_turnaround/tot,espera,sum_rta/tot,finalizados_cada_mil,threads)
