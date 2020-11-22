@@ -1,4 +1,4 @@
-Tiempo de turnaround promedio: 74.55555555555556
-Tiempo de Espera total: 11735
-Tiempo de Respuesta promedio: 9.444444444444445
-Cantidad de procesos finalizados cada 1000 segundos: 9.0
+Tiempo de turnaround promedio: 21.0
+Tiempo de Espera total: 74
+Tiempo de Respuesta promedio: 8.777644130918715
+Cantidad de procesos finalizados cada 1000 segundos: 128.57142857142858Cantidad de threads utilizados: 2

@@ -88,6 +88,18 @@ class Proceso(): #clase proceso
         Setea tiempo de arribo
         """
         self.__tiempo_arribo = int(tiempo)
+    
+    def set_tiempo_espera(self,tiempo):
+        """
+        Setea tiempo de espera
+        """
+        self.__tiempo_espera = int(tiempo)
+    
+    def get_tiempo_espera(self):
+        """
+        Devuelve tiempo de espera
+        """
+        return self.__tiempo_espera
 
     def get_tiempo_restante(self):
         """

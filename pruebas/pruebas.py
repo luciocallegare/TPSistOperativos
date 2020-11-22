@@ -60,7 +60,7 @@ elif args.algoritmo == 'FCFS':
 elif args.algoritmo == 'SJF':
     scheduling.SJF.ejecutar()
 elif args.algoritmo == 'Prioridad': 
-    scheduling.PrioridadNew.ejecutar(lista_procesos,args.threads)
+    salidas=scheduling.PrioridadNew.ejecutar(lista_procesos,args.threads)
 
 salidas.imprimirEnPantalla()
 f=open("salidas.txt","w")
