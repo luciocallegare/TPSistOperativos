@@ -79,6 +79,7 @@ def ejecutar(lista_procesos,threads):
     thread_ejecutar(threads,lista_procesos,lista_finalizados)
     #inicializar variables
     sum_turnaround = espera = sum_rta = 0
+    espera_individual={}
     tot = len(lista_finalizados)
     #tiempo en que finaliza la ejecucion
     fin_simulacion = time.time()
@@ -87,8 +88,9 @@ def ejecutar(lista_procesos,threads):
         sum_turnaround += p.get_tiempo_salida() - p.get_tiempo_arribo()
         espera += p.get_tiempo_espera()
         sum_rta += p.get_tiempo_entrada() - p.get_tiempo_arribo()
+        espera_individual[p.get_procID()]=p.get_tiempo_espera()
 
     finalizados_cada_mil = tot * 1000 / int(fin_simulacion-inicio_simulacion)
     
     #se devuelve un objeto salida con la informacion de la simulacion
-    return Salidas.Salidas_Threads(sum_turnaround/tot,espera,sum_rta/tot,finalizados_cada_mil,threads)
+    return Salidas.Salidas_Threads(sum_turnaround/tot,espera,sum_rta/tot,finalizados_cada_mil,threads,espera_individual)
