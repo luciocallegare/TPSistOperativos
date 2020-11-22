@@ -5,7 +5,7 @@ from subprocess import call #libreria para funcion limpiar pantalla
 import scheduling #modulo de algoritmos
 import Proceso #clase Proceso
 import Salidas #clase Salidas
-from scheduling import FCFS,RR,SJF,Prioridad
+from scheduling import FCFS,RR,SJF,Prioridad,PrioridadNew
 from operator import itemgetter, attrgetter
 call('clear')
 
