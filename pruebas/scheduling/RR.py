@@ -7,6 +7,7 @@ def ejecutar(lista_procesos,q):
     lista_finalizados = [] #declaro lista finalizados
     cpu_ocupado = False #declaro variable booleana para el estado de cpu
     tiempo_en_cpu = 0 #tiempo de un proceso en cpu
+    tiempo_ant=0
     ejecucion=lista_procesos[0] #arreglar
     print("ROUND ROBIN")
     print("quantum = ",q)
@@ -19,6 +20,7 @@ def ejecutar(lista_procesos,q):
         print("TIEMPO " , cronometro)#voy imprimiendo el tiempo en ejecucion
 
         if cpu_ocupado:
+            ejecucion.set_tiempo_restante(cronometro-tiempo_ant)
             print("En CPU PID ",end='')#proceso que esta en el cpu en este momento
             print(ejecucion)
             print("Tiempo restante: ",end='')
@@ -39,22 +41,24 @@ def ejecutar(lista_procesos,q):
         if len(lista_espera)>0 and not cpu_ocupado:#cargo un proceso al si hay un elemento en espera y el cpu vacio 
             ejecucion = lista_espera.pop(0)#saco el primer elemento de la lista de espera
             print("Entro al CPU el proceso " , ejecucion.get_procID())
-            tiempo_en_cpu = time.time()#guardo el tiempo en que entro
+            tiempo_en_cpu = cronometro#guardo el tiempo en que entro
             cpu_ocupado = True
         elif len(lista_espera)==0 and not cpu_ocupado:
             print("lista espera vacia")
         elif cpu_ocupado:
-            tiempo_si_termino=int(time.time() - tiempo_en_cpu)
-            ejecucion.set_tiempo_restante(tiempo_si_termino)
             if ejecucion.get_tiempo_restante()<=0:
                 print("Finalizo el proceso PID",ejecucion.get_procID())
-                lista_finalizados.append(ejecucion)                
-            elif tiempo_si_termino == q :#si se termino el quantum del cpu
+                lista_finalizados.append(ejecucion)       
+                cpu_ocupado=False         
+            elif cronometro-tiempo_en_cpu == q :#si se termino el quantum del cpu
                 print("quantum finalizado del proceso")
                 print("Se desaloja proceso ",ejecucion.get_procID(), "le quedan ", ejecucion.get_tiempo_restante())
                 lista_espera.append(ejecucion) #sino a lista de espera
-                cpu_ocupado = False #libero cpu        
+                cpu_ocupado = False #libero cpu  
+        tiempo_ant=time.time()-tiempo_inicio      
         time.sleep(1)#duermo un segundo para simular
+    print("******FIN DE SIMULACION******")
+    return lista_finalizados
 
 # def BuscaArribo(lista_procesos,tiempo_inicio):#funcion que busca uno o mas procesos que arribaron en el tiempo actual
 #     tiempo_actual = int(time.time()-tiempo_inicio)
