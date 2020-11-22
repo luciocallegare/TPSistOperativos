@@ -24,7 +24,7 @@ class Salidas():
         f.write("Tiempo de Espera total para cada proceso:\n")
         for proc in self.tiempo_espera.keys():
             f.write("\tProceso "+proc+": "+str(self.tiempo_espera[proc])+'\n')
-        f.write("Tiempo de espera total: "+str(self.espera_tot))
+        f.write("Tiempo de espera total: "+str(self.espera_tot)+'\n')
         f.write("Tiempo de Respuesta promedio: "+str(self.tiempo_rta)+'\n')
         f.write("Cantidad de procesos finalizados cada 1000 segundos: "+str(self.finalizados_1000))
 
