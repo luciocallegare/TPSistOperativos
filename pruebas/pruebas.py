@@ -4,7 +4,8 @@ import threading #libreria de hilos
 from subprocess import call #libreria para funcion limpiar pantalla
 import scheduling #modulo de algoritmos
 import Proceso #clase Proceso
-from scheduling import FCFS,RR,SJF,Prioridad,PrioridadNew
+import Salidas #clase Salidas
+from scheduling import FCFS,RR,SJF,Prioridad
 from operator import itemgetter, attrgetter
 call('clear')
 
@@ -50,8 +51,10 @@ print("Hilos: ",args.threads) #se imprime el algoritmo ingresado en la linea de 
 
 lista_procesos=Generar_lista() #declaro lista de objetos proceso
 
+
+
 if args.algoritmo == 'RR': #ejecuto el algoritmo indicado en el parser
-    scheduling.RR.ejecutar(lista_procesos,args.q)
+    salidas=scheduling.RR.ejecutar(lista_procesos,args.q)
 elif args.algoritmo == 'FCFS':
     scheduling.FCFS.ejecutar(lista_procesos)
 elif args.algoritmo == 'SJF':
@@ -59,3 +62,7 @@ elif args.algoritmo == 'SJF':
 elif args.algoritmo == 'Prioridad': 
     scheduling.PrioridadNew.ejecutar(lista_procesos,args.threads)
 
+salidas.imprimirEnPantalla()
+f=open("salidas.txt","w")
+salidas.imprimirEnArchivo(f)
+f.close()

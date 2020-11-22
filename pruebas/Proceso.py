@@ -12,6 +12,7 @@ class Proceso(): #clase proceso
         self.__tiempo_espera = 0
         self.__tiempo_salida = 0
         self.__tiempo_arribo =0 
+        self.__tiempo_entrada=0
         #variables privadas __
 
 
@@ -58,11 +59,23 @@ class Proceso(): #clase proceso
         """
         return int(self.__tiempo_arribo)
     
+    def get_tiempo_entrada(self):
+        """
+        Devuelve tiempo de entrada al CPU
+        """
+        return self.__tiempo_entrada
+    
     def set_tiempo_restante(self,q):
         """
         Setea tiempo restante de ejecucion
         """
         self.__tiempo_restante = int(self.__tiempo_restante - q)
+
+    def set_tiempo_entrada(self,ent):
+        """
+        Setea el tiempo de entrada en el CPU
+        """
+        self.__tiempo_entrada=ent
 
     def set_tiempo_salida(self,tiempo):
         """

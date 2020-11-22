@@ -1,0 +1,4 @@
+Tiempo de turnaround promedio: 74.55555555555556
+Tiempo de Espera total: 11735
+Tiempo de Respuesta promedio: 9.444444444444445
+Cantidad de procesos finalizados cada 1000 segundos: 9.0
