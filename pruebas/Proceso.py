@@ -99,6 +99,9 @@ class Proceso(): #clase proceso
         else:
             return 1
 
+    def __eq__(self,other):
+        return self.__prioridad==other.__prioridad
+
     def __lt__(self,other): #smaller, metodos magicos python para ordenamiento
         return self.__prioridad<other.__prioridad
     

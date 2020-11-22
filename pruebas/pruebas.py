@@ -4,7 +4,7 @@ import threading #libreria de hilos
 from subprocess import call #libreria para funcion limpiar pantalla
 import scheduling #modulo de algoritmos
 import Proceso #clase Proceso
-from scheduling import FCFS,RR,SJF,Prioridad
+from scheduling import FCFS,RR,SJF,Prioridad,PrioridadNew
 from operator import itemgetter, attrgetter
 call('clear')
 
@@ -57,5 +57,5 @@ elif args.algoritmo == 'FCFS':
 elif args.algoritmo == 'SJF':
     scheduling.SJF.ejecutar()
 elif args.algoritmo == 'Prioridad': 
-    scheduling.Prioridad.ejecutar(lista_procesos,args.threads)
+    scheduling.PrioridadNew.ejecutar(lista_procesos,args.threads)
 
