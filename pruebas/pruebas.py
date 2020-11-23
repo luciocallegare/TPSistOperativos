@@ -56,9 +56,9 @@ lista_procesos=Generar_lista() #declaro lista de objetos proceso
 if args.algoritmo == 'RR': #ejecuto el algoritmo indicado en el parser
     salidas=scheduling.RR.ejecutar(lista_procesos,args.q)
 elif args.algoritmo == 'FCFS':
-    scheduling.FCFS.ejecutar(lista_procesos)
+    salidas=scheduling.FCFS.ejecutar(lista_procesos)
 elif args.algoritmo == 'SJF':
-    scheduling.SJF.ejecutar()
+    salidas=scheduling.SJF.ejecutar(lista_procesos)
 elif args.algoritmo == 'Prioridad': 
     salidas=scheduling.PrioridadNew.ejecutar(lista_procesos,args.threads)
 

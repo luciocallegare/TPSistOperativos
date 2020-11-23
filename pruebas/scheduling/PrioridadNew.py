@@ -25,16 +25,7 @@ def ciclo(worker,lista_finalizados) :
         print("termino el proceso ",worker.get_procID())
         tiempo_salida = time.time()
         worker.set_tiempo_salida(tiempo_salida)    
-        #turnaround
-        print("Turnaround = ",int(tiempo_salida-tiempo_arribo))
-        #tiempo espera
-        print("Tiempo de Espera = ", int(worker.get_tiempo_espera()))
-        #tiempo espera total (para los casos sin desalojo = tiempo espera)
-        print("Tiempo de Espera Total = ", int(worker.get_tiempo_espera()))
-        #tiempo de respuesta
-        print("Tiempo de Respuesta = ",int(tiempo_ingreso)-int(worker.get_tiempo_entrada()))
-        #tiempo en procesador
-        print("Tiempo uso procesador = ",worker.get_tiempo_cpu())
+        utils.InformeProceso(worker)
 
     lista_finalizados.append(worker)
 

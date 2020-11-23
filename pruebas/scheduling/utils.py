@@ -13,4 +13,13 @@ def InformeProceso(proceso):
     pid = proceso.get_procID()
     turnaround = int(proceso.get_tiempo_salida()) - int(proceso.get_tiempo_arribo())
     tiempo_espera = int(turnaround) - int(proceso.get_tiempo_cpu())
-    print(pid,int(turnaround),int(tiempo_espera))
+    #turnaround
+    print("Turnaround = ",turnaround)
+    #tiempo espera
+    print("Tiempo de Espera = ", tiempo_espera)
+    #tiempo espera total (para los casos sin desalojo = tiempo espera)
+    print("Tiempo de Espera Total = ", tiempo_espera)
+    #tiempo de respuesta
+    print("Tiempo de Respuesta = ",int(proceso.get_tiempo_entrada())-int(proceso.get_tiempo_arribo()))
+    #tiempo en procesador
+    print("Tiempo uso procesador = ",proceso.get_tiempo_cpu())    

@@ -15,7 +15,7 @@ class Salidas():
         print("Tiempo de Espera total para cada proceso: ")
         for proc in self.tiempo_espera.keys():
             print("\tProceso "+proc+": "+str(self.tiempo_espera[proc]))
-        print("Tiempo de espera total",self.espera_tot)
+        print("Tiempo de espera total: ",self.espera_tot)
         print("Tiempo de Respuesta promedio: ",self.tiempo_rta)
         print("Cantidad de procesos finalizados cada 1000 segundos: ",self.finalizados_1000)
     
