@@ -1,14 +1,14 @@
-Tiempo de turnaround promedio: 55.44
+Tiempo de turnaround promedio: 37.78
 Tiempo de Espera total para cada proceso:
 	Proceso 11: 0
 	Proceso 2: 18
-	Proceso 16: 17
-	Proceso 1: 29
-	Proceso 100: 35
-	Proceso 3: 74
-	Proceso 12: 76
-	Proceso 24: 73
-	Proceso 99: 62
-Tiempo de espera total: 384
-Tiempo de Respuesta promedio: 43.12
+	Proceso 3: 14
+	Proceso 12: 16
+	Proceso 1: 24
+	Proceso 24: 19
+	Proceso 16: 43
+	Proceso 99: 22
+	Proceso 100: 69
+Tiempo de espera total: 225
+Tiempo de Respuesta promedio: 25.57
 Cantidad de procesos finalizados cada 1000 segundos: 77.59

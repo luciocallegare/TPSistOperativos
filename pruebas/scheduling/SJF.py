@@ -25,8 +25,7 @@ def ejecutar(lista_procesos):
         if len(lista_procesos)>0:#si hay algun elemento reviso si arriba un proceso en el tiempo acutal
             lista_espera.extend(utils.BuscaArribo(lista_procesos,cronometro))
             #lista_procesos=sorted(lista_procesos,key=attrgetter('get_tiempo_cpu'))#ordenar por tiempo en cpu
-            lista_procesos=sorted(lista_procesos,key=lambda Proceso: Proceso.get_tiempo_cpu())#ordenar por tiempo en cpu
-
+            lista_espera=sorted(lista_espera,key=lambda Proceso: Proceso.get_tiempo_cpu())#ordenar por tiempo en cpu
         if int(tiempo_de_procesador) ==  int(time.time() - tiempo_ingreso_cpu) :#si el tiempo en procesador termino
             print("Finalizo el proceso PID",ejecucion.get_procID())
             ejecucion.set_tiempo_salida(time.time())
@@ -59,9 +58,6 @@ def ejecutar(lista_procesos):
         espera[p.get_procID()]=p.get_tiempo_espera()
 
     return Salidas.Salidas(sum_turnaround/tot,espera_tot,sum_rta/tot,tot*1000/cronometro,espera)
-
-
-
 
 def Mostrar_estado_CPU(cpu_ocupado,ejecucion):
     if cpu_ocupado == True:
