@@ -1,6 +1,7 @@
 # TPSistOperativos
 TP de la materia Sistemas Operativos.
 
-no le den bola a la carpeta scheduling la subi y no la puedo borrar
-
-pruebas tiene todo
+Sergio:
+Limpie un poco el codigo
+Hice prioridades con threads
+Pude ordenar las listas y las listas de objetso
